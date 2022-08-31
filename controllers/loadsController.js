@@ -61,12 +61,11 @@ const changeLoadState = async (req, res) => {
         load.state = states[2];
         break;
       case states[2]:
+        load.status = 'SHIPPED';
         load.state = states[3];
-        load.status = 'SHIPPED'
         break;
     }
 
-    // await load.save();
     res.status(200).send({
       "message": `Load state changed to ${load.state}`
     })
