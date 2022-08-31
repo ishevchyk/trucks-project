@@ -61,8 +61,8 @@ const changeLoadState = async (req, res) => {
         load.state = states[2];
         break;
       case states[2]:
-        load.status = 'SHIPPED';
         load.state = states[3];
+        load.status = 'SHIPPED'
         break;
     }
 
