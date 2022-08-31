@@ -1,0 +1,31 @@
+.starting {
+    margin: 5% 10%;
+    display: grid;
+    grid-template-columns: 2fr 3fr;
+    gap: 5%;
+}
+.starting-info h2{
+    font-size: 2em;
+    background: linear-gradient(
+            to right,
+            hsl(180, 88%, 47%),
+            hsl(48, 97%, 48%)
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+.starting-info p {
+    color: white;
+    font-size: 1.5em;
+}
+.starting-img{
+    align-self: center;
+}
+.starting-img img {
+    width: 100%;
+    object-fit: contain;
+    transition: transform .3s;
+}
+.starting-img img:hover {
+    transform: scale(1.5)
+}

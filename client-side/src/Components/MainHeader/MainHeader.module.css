@@ -1,0 +1,40 @@
+.main-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 90%;
+    height: 12vh;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 5%;
+    box-shadow: rgba(241, 233, 233, 0.94) 0 0 3px 0, rgba(239, 234, 234, 0.43) 0 0 0 1px;
+
+
+}
+
+.main-header__logo {
+    display: flex;
+    color: white;
+    align-items: center;
+    justify-items: center;
+    column-gap: 10%;
+    height: 100%;
+    flex: 0 1 30%;
+}
+.main-header__logo img {
+    width: 15%;
+    opacity: 70%;
+}
+.main-header__logo h1{
+    background: linear-gradient(
+            to right,
+            hsl(289, 83%, 64%),
+            hsl(284, 85%, 73%),
+            hsl(306, 65%, 74%)
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+

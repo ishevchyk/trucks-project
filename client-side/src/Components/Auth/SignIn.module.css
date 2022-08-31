@@ -1,0 +1,81 @@
+.sign-in {
+    border: 2px solid rgba(0, 0, 0, 0.71);
+    color: white;
+    background: rgba(0, 0, 0, 0.51);
+    margin: 20vh auto 0;
+    width: 60%;
+    max-width: 90%;
+    border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    text-align: center;
+}
+
+.signup {
+    display: flex;
+    justify-content: center;
+    color: white;
+
+}
+.signup button {
+    background: transparent;
+    border: none;
+    text-decoration-line: underline;
+    color: #0ee0e0;
+}
+.signup button:hover {
+    color: deeppink;
+    cursor: pointer;
+}
+
+.signin-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 1rem;
+    text-align: left;
+}
+.signin-form__input label, .signin-form__role label{
+    font-weight: bold;
+    margin: 0.5rem 0;
+    display: block;
+}
+.signin-form__input input{
+    font: inherit;
+    padding: 0.5rem;
+    border-radius: 6px;
+    border: 1px solid deeppink;
+    width: 20rem;
+    max-width: 100%;
+}
+.signin-form__role select{
+    padding: 0.5rem;
+    border-radius: 6px;
+    border: 1px solid deeppink;
+    width: 10rem;
+}
+
+.signin-form__actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1%;
+}
+.signin-form__actions button {
+    padding: .4rem;
+    background: transparent;
+    border-radius: 5px;
+    width: 25%;
+    border: 1px solid deeppink;
+    color: #0ee0e0;
+}
+.signin-form__actions button:hover {
+    cursor: pointer;
+    background: deeppink;
+    box-shadow: rgba(255, 20, 147, 0.68) 0 0 2px 2px;
+    letter-spacing: .1rem;
+}
+
+

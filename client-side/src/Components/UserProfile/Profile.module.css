@@ -1,0 +1,7 @@
+.profile {
+    /*margin: 20% 5%;*/
+    margin: 20vh 15vw;
+    background: rgba(0, 0, 0, 0.51);
+    color: white;
+    box-shadow: rgba(241, 233, 233, 0.94) 0 0 3px 0, rgba(239, 234, 234, 0.43) 0 0 0 1px;
+}
