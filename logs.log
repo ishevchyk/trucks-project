@@ -756,3 +756,5 @@
 ::1 - - [31/Aug/2022:15:41:03 +0000] "GET /api/loads/active HTTP/1.1" 404 107 "-" "PostmanRuntime/7.29.2"
 ::1 - - [31/Aug/2022:15:41:14 +0000] "GET /api/loads/active HTTP/1.1" 404 107 "-" "PostmanRuntime/7.29.2"
 ::1 - - [31/Aug/2022:15:44:49 +0000] "GET /api/loads/active HTTP/1.1" 404 35 "-" "PostmanRuntime/7.29.2"
+::1 - - [31/Aug/2022:15:53:06 +0000] "POST /api/trucks HTTP/1.1" 200 40 "-" "PostmanRuntime/7.29.2"
+::1 - - [31/Aug/2022:15:54:26 +0000] "POST /api/trucks/630f83e2e697d8004498d704/assign HTTP/1.1" 200 41 "-" "PostmanRuntime/7.29.2"

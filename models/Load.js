@@ -18,7 +18,7 @@ const loadsSchema = new mongoose.Schema({
     default: 'NEW'
   },
   state: {
-    type:String,
+    type: String,
     enum: ['En route to Pick Up', 'Arrived to Pick Up', 'En route to delivery', 'Arrived to delivery']
   },
   name: {

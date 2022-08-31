@@ -48,7 +48,6 @@ const changeLoadState = async (req, res) => {
   try {
     const states = Load.schema.path('state').enumValues
     const driverId = req.user._id
-    console.log(driverId)
 
     const load = Load.find({assigned_to: driverId})
     if (!load) throw new Error('There is no load assigned to you')
@@ -62,9 +61,12 @@ const changeLoadState = async (req, res) => {
         break;
       case states[2]:
         load.state = states[3];
-        load.status = 'SHIPPED'
         break;
     }
+    if (load.state === states[3]){
+      load.status = 'SHIPPED'
+    }
+
 
     res.status(200).send({
       "message": `Load state changed to ${load.state}`
