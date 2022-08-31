@@ -66,7 +66,7 @@ const changeLoadState = async (req, res) => {
         break;
     }
 
-    await load.save();
+    // await load.save();
     res.status(200).send({
       "message": `Load state changed to ${load.state}`
     })
