@@ -52,49 +52,49 @@ const changeLoadState = async (req, res) => {
     const load = await Load.find({assigned_to: driverId})
     if (!load) throw new Error('There is no load assigned to you')
 
-    // if (load) {
-    //   let message;
-    //
-    //   switch (load.state) {
-    //     case states[0]:
-    //       message = states[1];
-    //       break;
-    //     case states[1]:
-    //       message = states[2];
-    //       break;
-    //     case states[2]:
-    //       message = states[3];
-    //       load.status = 'SHIPPED';
-    //       break;
-    //   }
-    //
-    //   load.state = message;
-    //   await load.save();
-    //   res.status(200).json({message: `Load state changed to ${message}`});
-    // } else {
-    //   res.status(400);
-    //   throw new Error('No load found in nextState');
-    // }
+    if (load) {
+      let message;
 
-    let stateMsg;
-    switch (load.state) {
-      case states[0]:
-        stateMsg = states[1];
-        break;
-      case states[1]:
-        stateMsg = states[2];
-        break;
-      case states[2]:
-        stateMsg = states[3];
-        load.status = 'SHIPPED'
-        break;
+      switch (load.state) {
+        case states[0]:
+          message = states[1];
+          break;
+        case states[1]:
+          message = states[2];
+          break;
+        case states[2]:
+          message = states[3];
+          load.status = 'SHIPPED';
+          break;
+      }
+
+      load.state = message;
+      await load.save();
+      res.status(200).json({message: `Load state changed to ${message}`});
+    } else {
+      res.status(400);
+      throw new Error('No load found in nextState');
     }
-    load.state = stateMsg
-    await load.save()
 
-    res.status(200).send({
-      "message": `Load state changed to ${load.state}`
-    })
+    // let stateMsg;
+    // switch (load.state) {
+    //   case states[0]:
+    //     stateMsg = states[1];
+    //     break;
+    //   case states[1]:
+    //     stateMsg = states[2];
+    //     break;
+    //   case states[2]:
+    //     stateMsg = states[3];
+    //     load.status = 'SHIPPED'
+    //     break;
+    // }
+    // load.state = stateMsg
+    // await load.save()
+    //
+    // res.status(200).send({
+    //   "message": `Load state changed to ${load.state}`
+    // })
 
   } catch (err){
       res.status(404).send({ "message": err.message })
