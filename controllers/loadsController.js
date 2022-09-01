@@ -89,7 +89,7 @@ const changeLoadState = async (req, res) => {
         load.status = 'SHIPPED'
         break;
     }
-    load.set({state: stateMsg})
+    await load.set({state: stateMsg})
     await load.save()
 
     res.status(200).send({
