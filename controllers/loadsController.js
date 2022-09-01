@@ -1,52 +1,56 @@
-const { Load } = require('../models/Load');
-const { Truck } = require('../models/Truck');
+// noinspection ExceptionCaughtLocallyJS
+
+const {Load} = require("../models/Load");
+const {Truck} = require("../models/Truck");
 
 const getLoads = async (req, res) => {
-  const { user } = req;
+  const user = req.user;
   let loads;
-  if (user.role === 'DRIVER') {
-    loads = await Load.find({ assigned_to: user._id });
+  if(user.role === 'DRIVER'){
+    loads = await Load.find({assigned_to: user._id})
   } else {
-    loads = await Load.find({ created_by: user._id });
+    loads = await Load.find({created_by: user._id})
   }
 
-  res.status(200).send({ loads });
-};
+  res.status(200).send({loads: loads})
+}
 
 const addLoad = async (req, res) => {
   const load = await new Load(
     {
       ...req.body,
-      created_by: req.user._id,
-    },
-  );
-  await load.save();
+      created_by: req.user._id
+    }
+  )
+  await load.save()
 
   res.status(200).send({
-    message: 'Load created successfully',
-  });
-};
+    "message": "Load created successfully"
+  })
+
+}
 
 const getActiveLoad = async (req, res) => {
   try {
     const userId = req.user._id;
-    const load = await Load.findOne({ assigned_to: userId, status: 'ASSIGNED' });
+    const load = await Load.findOne({assigned_to: userId, status: 'ASSIGNED'});
 
-    if (!load) throw new Error('No active load found.');
+    if (!load) throw new Error('No active load found.')
 
-    res.status(200).send({ load });
+    res.status(200).send({load})
   } catch (err) {
-    res.status(404).send({ message: err.message });
+    res.status(404).send({"message": err.message})
   }
-};
+}
+
 
 const changeLoadState = async (req, res) => {
   try {
-    const states = Load.schema.path('state').enumValues;
-    const driverId = req.user._id;
+    const states = Load.schema.path('state').enumValues
+    const driverId = req.user._id
 
-    const load = await Load.find({ assigned_to: driverId });
-    if (!load) throw new Error('There is no load assigned to you');
+    const load = await Load.find({assigned_to: driverId})
+    if (!load) throw new Error('There is no load assigned to you')
 
     let stateMsg;
     switch (load.state) {
@@ -59,94 +63,94 @@ const changeLoadState = async (req, res) => {
       case states[2]:
         stateMsg = states[3];
         Load.updateOne(load, {
-          status: 'SHIPPED',
+          status: 'SHIPPED'
 
-        }, { new: true });
+        }, {new: true})
         break;
     }
     await Load.updateOne(load, {
-      state: stateMsg,
-    }, { new: true });
+      state: stateMsg
+    }, {new: true})
+    // load.state = stateMsg
+    // await load.save()
 
     res.status(200).send({
-      message: `Load state changed to ${load.state}`,
-    });
-  } catch (err) {
-    res.status(404).send({ message: err.message });
+      "message": `Load state changed to ${load.state}`
+    })
+
+  } catch (err){
+      res.status(404).send({ "message": err.message })
   }
-};
+
+}
 
 const getLoadById = async (req, res) => {
   try {
     const userId = req.user._id;
     const load = await Load.findById(req.params.id);
 
-    if (!load) throw new Error('No loads by provided ID');
-    if (load.created_by.toString() !== userId) throw new Error('You cannot get load related to another user');
+    if(!load) throw new Error('No loads by provided ID');
+    if(load.created_by.toString() !== userId ) throw new Error('You cannot get load related to another user');
 
-    res.send({ load });
+    res.send( { load } )
   } catch (err) {
-    res.status(404).send({ message: err.message });
+    res.status(404).send({ "message": err.message })
   }
-};
+}
 
 const updateLoadById = async (req, res) => {
   try {
     const userId = req.user._id;
     const load = await Load.findById(req.params.id);
 
-    if (!load) throw new Error('No loads by provided ID');
-    if (load.created_by.toString() !== userId) throw new Error('You cannot change other Users load');
+    if(!load) throw new Error('No loads by provided ID');
+    if(load.created_by.toString() !== userId ) throw new Error('You cannot change other Users load');
 
     const dataToUpdate = await req.body;
 
-    await Load.updateOne({ _id: req.params.id }, {
-      $set: dataToUpdate,
-    }, { new: true });
+    await Load.updateOne({_id: req.params.id}, {
+      $set: dataToUpdate
+    }, {new: true})
 
-    res.send({ message: 'Load details changed successfully' });
+    res.send({"message": "Load details changed successfully"})
   } catch (err) {
-    res.status(404).send({ message: err.message });
+    res.status(404).send({ "message": err.message })
   }
-};
+}
 
 const deleteLoadById = async (req, res) => {
   try {
     const userId = req.user._id;
     const load = await Load.findById(req.params.id);
 
-    if (!load) throw new Error('No loads by provided ID');
-    if (load.created_by.toString() !== userId) throw new Error('You cannot get load related to another User');
+    if(!load) throw new Error('No loads by provided ID');
+    if(load.created_by.toString() !== userId ) throw new Error('You cannot get load related to another User');
 
-    await Load.deleteOne({ _id: req.params.id });
-    res.send({ message: 'Load deleted successfully' });
+    await Load.deleteOne({_id: req.params.id})
+    res.send( { "message": "Load deleted successfully" } )
   } catch (err) {
-    res.status(404).send({ message: err.message });
+    res.status(404).send({ "message": err.message })
   }
-};
+}
 
 const postLoadById = async (req, res) => {
   try {
     const load = await Load.findById(req.params.id);
 
-    if (!load) throw new Error('No load found');
+    if(!load) throw new Error('No load found')
 
     if (load) {
       load.status = 'POSTED';
-      const { dimensions, payload } = load;
+      const {dimensions, payload} = load;
       const matched = await Truck.findOne()
         .where('status').equals('IS')
-        .where('payload')
-        .gt(payload)
-        .where('dimensions.height')
-        .gt(dimensions.height)
-        .where('dimensions.width')
-        .gt(dimensions.width)
-        .where('dimensions.length')
-        .gt(dimensions.length);
+        .where('payload').gt(payload)
+        .where('dimensions.height').gt(dimensions.height)
+        .where('dimensions.width').gt(dimensions.width)
+        .where('dimensions.length').gt(dimensions.length)
 
       if (matched) {
-        matched.status = 'OL';
+        matched.status = 'OL'
 
         load.set({
           status: 'ASSIGNED',
@@ -158,41 +162,47 @@ const postLoadById = async (req, res) => {
             {
               message: `Load assigned to driver with id ${matched.created_by}`,
             },
-          ],
-        });
+          ]
+        })
         await matched.save();
         await load.save();
 
         res.status(200).send({
-          message: 'Load posted successfully',
-          driver_found: true,
-        });
+          "message": "Load posted successfully",
+          "driver_found": true
+        })
+
       } else {
-        load.logs = [...load.logs, { message: 'Couldn\'t not find driver' }];
+        load.logs = [...load.logs, {message: `Couldn't not find driver`}];
         await load.save();
-        throw new Error('No drivers available for your load. PLease try again later');
+        throw new Error('No drivers available for your load. PLease try again later')
       }
-    }
-  } catch (err) {
-    res.status(404).send({ message: err.message });
+      }
+
+  } catch (err){
+    res.status(404).send({ "message": err.message })
   }
-};
+
+
+}
 
 const getLoadShippingInfo = async (req, res) => {
   try {
     const load = await Load.findById(req.params.id);
-    if (!load) throw new Error('No load found');
+    if(!load) throw new Error('No load found');
 
-    const truck = await Truck.find({ assigned_to: load.assigned_to });
+    const truck = await Truck.find({assigned_to: load.assigned_to})
 
     res.status(200).send({
       load,
-      truck,
-    });
-  } catch (err) {
-    res.status(404).send({ message: err.message });
+      truck
+    })
+
+  } catch (err){
+    res.status(404).send({ "message": err.message })
   }
-};
+}
+
 
 module.exports = {
   getLoads,
@@ -203,5 +213,5 @@ module.exports = {
   updateLoadById,
   deleteLoadById,
   postLoadById,
-  getLoadShippingInfo,
-};
+  getLoadShippingInfo
+}
