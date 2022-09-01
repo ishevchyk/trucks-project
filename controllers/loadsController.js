@@ -52,6 +52,11 @@ const changeLoadState = async (req, res) => {
     const load = Load.find({assigned_to: driverId})
     if (!load) throw new Error('There is no load assigned to you')
 
+    if (load.state === states[2]){
+      load.set({
+        status: 'SHIPPED'})
+    }
+
     switch (load.state) {
       case states[0]:
         load.state = states[1];
@@ -63,12 +68,6 @@ const changeLoadState = async (req, res) => {
         load.state = states[3];
         break;
     }
-    if (load.state === states[3]){
-      load.set({
-        status: 'SHIPPED'})
-    }
-    await load.save()
-
 
     res.status(200).send({
       "message": `Load state changed to ${load.state}`
