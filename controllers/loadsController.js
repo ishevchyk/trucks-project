@@ -64,8 +64,10 @@ const changeLoadState = async (req, res) => {
         break;
     }
     if (load.state === states[3]){
-      load.status = 'SHIPPED'
+      load.set({
+        status: 'SHIPPED'})
     }
+    await load.save()
 
 
     res.status(200).send({
@@ -147,7 +149,7 @@ const postLoadById = async (req, res) => {
         matched.status = 'OL'
 
         load.set({
-          status: 'SHIPPED',
+          status: 'ASSIGNED',
           assigned_to: matched.created_by,
           state: 'En route to Pick Up',
           truck: matched._id,
