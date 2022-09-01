@@ -26,7 +26,6 @@ const usersSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Truck',
   }
-
 }, {timestamps: {
     createdAt: "createdDate"
   }})

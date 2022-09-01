@@ -3,13 +3,8 @@ const nodemailer = require('nodemailer')
 
 const getUserProfile = async (req, res) => {
   const user = await User.findById(req.user._id).select('-password');
-
   res.send({
     user
-    // "_id": user._id,
-    // "email": user.email,
-    // "role": user.role,
-    // "createdDate": user.createdDate
   })
 }
 const deleteUserProfile = async (req, res) => {

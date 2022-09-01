@@ -1,7 +1,18 @@
 .profile {
-    /*margin: 20% 5%;*/
     margin: 20vh 15vw;
+    padding: 5%;
     background: rgba(0, 0, 0, 0.51);
     color: white;
     box-shadow: rgba(241, 233, 233, 0.94) 0 0 3px 0, rgba(239, 234, 234, 0.43) 0 0 0 1px;
+    display: grid;
+    row-gap: 5%;
+    text-align: center;
+}
+
+.info {
+    display: grid;
+    grid-template-columns: 1fr 2fr 2fr;
+}
+.info img {
+    width: 100%;
 }
