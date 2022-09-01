@@ -58,7 +58,6 @@ const changeLoadState = async (req, res) => {
         break;
       case states[1]:
         load.state = states[2];
-        load.status = 'SHIPPED'
         break;
       case states[2]:
         load.state = states[3];
@@ -148,7 +147,7 @@ const postLoadById = async (req, res) => {
         matched.status = 'OL'
 
         load.set({
-          status: 'ASSIGNED',
+          status: 'SHIPPED',
           assigned_to: matched.created_by,
           state: 'En route to Pick Up',
           truck: matched._id,
